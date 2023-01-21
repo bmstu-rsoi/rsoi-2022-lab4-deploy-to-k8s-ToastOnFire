@@ -2,6 +2,9 @@ name: GitHub Classroom Workflow
 on:
   push:
     branches: [ master ]
+env:
+  OKTETO_SERVER: ${{ secrets.OKTETO_SERVER }}
+  OKTETO_TOKEN: ${{ secrets.OKTETO_TOKEN }}
 jobs:
   build:
     name: Autograding
@@ -14,6 +17,35 @@ jobs:
       - uses: docker/setup-buildx-action@v2
 
       # TODO build, publish to docker hub, deploy to k8s
+      
+      - name: Login in dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: toastonfire
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+      - name: Build docker images
+        run: |
+          docker build ./Cars/ -t toastonfire/rsoi-lab4:cars
+          docker build ./Gateway/ -t toastonfire/rsoi-lab4:gateway
+          docker build ./Payment/ -t toastonfire/rsoi-lab4:payment
+          docker build ./Rental/ -t toastonfire/rsoi-lab4:rental
+          
+      - name: Push docker images
+        run: |
+          docker push toastonfire/rsoi-lab4:cars
+          docker push toastonfire/rsoi-lab4:gateway
+          docker push toastonfire/rsoi-lab4:payment
+          docker push toastonfire/rsoi-lab4:rental
+          
+      - name: Deploy to Okteto
+        run: |
+          kubectl config set-cluster cars-service-cluster --server="$OKTETO_SERVER" --insecure-skip-tls-verify=true
+          kubectl config set-credentials cloud_okteto_com-user --token="$OKTETO_TOKEN"
+          kubectl config set-context default --cluster=cars-service-cluster --user=cloud_okteto_com-user --namespace="toastonfire"
+          kubectl config use-context default
+          cd k8s && helm delete services && helm install services ./services-chart
+          sleep 60
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master

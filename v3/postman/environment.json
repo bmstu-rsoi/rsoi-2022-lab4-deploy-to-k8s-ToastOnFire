@@ -4,7 +4,7 @@
 	"values": [
 		{
 			"key": "baseUrl",
-			"value": "",
+			"value": "http://app.toastonfire.cloud.okteto.net",
 			"enabled": true
 		}
 	],

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata: 
+    name: {{ .Values.cars.name }}
+spec:
+    selector:
+        app: {{ .Values.cars.name }}
+    ports:
+      - name: {{ .Values.cars.name }}-listener
+        protocol: TCP
+        port: {{ .Values.cars.port }}
+        targetPort: {{ .Values.cars.name }}

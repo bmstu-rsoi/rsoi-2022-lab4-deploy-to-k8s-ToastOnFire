@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.rental.name }}
+    labels: 
+        app : {{ .Values.rental.name }}
+spec:
+    selector:
+        matchLabels:
+            app: {{ .Values.rental.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.rental.name }}
+        spec:
+            containers:
+              - name: {{ .Values.rental.name }}-lab
+                image: {{ .Values.rental.repo }}
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: {{ .Values.rental.port }}
+                    name: {{ .Values.rental.name }}
+                    protocol: TCP

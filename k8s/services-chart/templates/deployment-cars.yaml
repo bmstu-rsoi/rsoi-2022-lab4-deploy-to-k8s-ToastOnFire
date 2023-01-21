@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.cars.name }}
+    labels: 
+        app : {{ .Values.cars.name }}
+spec:
+    selector:
+        matchLabels:
+            app: {{ .Values.cars.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.cars.name }}
+        spec:
+            containers:
+              - name: {{ .Values.cars.name }}-lab
+                image: {{ .Values.cars.repo }}
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: {{ .Values.cars.port }}
+                    name: {{ .Values.cars.name }}
+                    protocol: TCP
