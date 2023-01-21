@@ -3,15 +3,15 @@ gateway:
   name: gateway
   repo: toastonfire/rsoi-lab4:gateway
   port: 8080
-ticket:
+cars:
   name: cars
   repo: toastonfire/rsoi-lab4:cars
   port: 8070
-bonus:
+payment:
   name: payment
   repo: toastonfire/rsoi-lab4:payment
   port: 8050
-flight:
+rental:
   name: rental
   repo: toastonfire/rsoi-lab4:rental
   port: 8060
