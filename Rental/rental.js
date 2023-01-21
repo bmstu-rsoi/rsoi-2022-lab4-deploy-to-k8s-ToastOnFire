@@ -10,9 +10,9 @@ const errors = {error404: {message: 'Not found Person for ID'},
 }
 
 const pool = new Pool({
-	user: 'program',
-	database: 'rentals',
-	password: 'test',
+	user: 'postgres',
+	database: 'postgres',
+	password: 'postgres',
 	port: 5432,
 	host: 'postgres',
 });
