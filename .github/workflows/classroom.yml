@@ -47,7 +47,7 @@ jobs:
           helm delete services
           sleep 10
           helm install services ./k8s/services-chart
-          sleep 60
+          sleep 200
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
