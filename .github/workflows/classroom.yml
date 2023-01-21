@@ -44,8 +44,6 @@ jobs:
           kubectl config set-credentials cloud_okteto_com-user --token="$OKTETO_TOKEN"
           kubectl config set-context default --cluster=cars-service-cluster --user=cloud_okteto_com-user --namespace="toastonfire"
           kubectl config use-context default
-          helm delete services
-          sleep 10
           helm install services ./k8s/services-chart
           sleep 60
 
